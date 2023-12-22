@@ -1,0 +1,289 @@
+/* Định dạng tiêu đề bài viết */
+.article-title {
+    font-size: 24px;
+    color: #333;
+}
+
+.column1{
+    float: right;
+    margin-left: 10px;
+}
+.article-subtitle {
+    font-size: 20px;
+}
+.mani{
+    width: 100%;
+}
+.article-content {
+    font-size: 16px;
+}
+.content{
+    padding-bottom: 100px;
+}
+.posting-date {
+    font-style: italic;
+    color: #777;
+}
+
+/* Định dạng vùng trồng */
+.region-heading {
+    font-size: 20px;
+}
+
+.region-name {
+    font-weight: bold;
+}
+
+.region-description {
+    margin-top: 10px;
+}
+
+.region-address,
+.region-area,
+.region-product {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Định dạng thông tin trái cây */
+.fruit-heading {
+    font-size: 20px;
+}
+
+.fruit-name {
+    font-weight: bold;
+}
+
+.fruit-description {
+    margin-top: 10px;
+}
+
+.planting-time,
+.harvest-time {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Định dạng hình ảnh */
+.image-heading {
+    font-size: 20px;
+}
+
+.image-list {
+    list-style: none;
+    padding: 0;
+}
+
+.image-item {
+    margin-bottom: 20px;
+}
+
+.image-description {
+    font-style: italic;
+    color: #777;
+}
+
+.image-container {
+    text-align: center;
+}
+
+
+
+/* Định dạng hộp thông báo */
+.custom-message-box {
+    width: 300px; /* Độ rộng của hộp thông báo */
+    margin: 20px auto; /* Canh giữa hộp thông báo */
+    text-align: center; /* Canh giữa nội dung trong hộp thông báo */
+}
+
+/* Định dạng các loại thông báo (ví dụ: success, error, info, warning) */
+.custom-message {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.custom-message.success {
+    background-color: #4CAF50; /* Màu nền thông báo thành công */
+    color: white; /* Màu văn bản của thông báo thành công */
+}
+
+.custom-message.error {
+    background-color: #f44336; /* Màu nền thông báo lỗi */
+    color: white; /* Màu văn bản của thông báo lỗi */
+}
+
+.custom-message.info {
+    background-color: #2196F3; /* Màu nền thông báo thông tin */
+    color: white; /* Màu văn bản của thông báo thông tin */
+}
+
+.custom-message.warning {
+    background-color: #ff9800; /* Màu nền thông báo cảnh báo */
+    color: white; /* Màu văn bản của thông báo cảnh báo */
+}
+/* Các kiểu chung */
+.comments-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    margin-right: 10px;
+}
+
+.user-avatar img {
+    border-radius: 50%;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #888;
+}
+
+.comment-content {
+    margin-top: 10px;
+}
+
+.comment-content strong {
+    font-weight: bold;
+}
+
+.comment-actions {
+    margin-top: 10px;
+}
+
+.edit-comment-link, .delete-comment-link {
+    text-decoration: none;
+    color: #555;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Form chỉnh sửa bình luận */
+.edit-comment-form {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: none;
+}
+
+.edit-comment-form h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.submit-comment {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Form thêm bình luận mới */
+.add-comment-form {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.add-comment-form h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* ----------------------------------------- edit video ----------------------------------- */
+/* Định dạng danh sách ul */
+ul.image-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Khoảng cách giữa các mục */
+}
+
+/* Định dạng mục video li */
+li.image-item {
+    width: 320px; /* Độ rộng của mỗi mục video */
+    margin-bottom: 20px; /* Khoảng cách dưới của mỗi mục */
+}
+
+/* Định dạng tiêu đề video */
+p.image-description {
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Định dạng video */
+
+/* Tùy chỉnh nút điều khiển video */
+video::-webkit-media-controls {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.7); /* Màu nền cho nút điều khiển */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Tùy chỉnh nút điều khiển video (điều chỉnh cho các trình duyệt khác) */
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-volume-slider {
+    background-color: transparent;
+}
+
+/* Tùy chỉnh màu sắc cho nút điều khiển video */
+video::-webkit-media-controls-play-button {
+    color: #fff;
+}
+
+/* Tùy chỉnh nút điều khiển video khi được hover */
+video::-webkit-media-controls-play-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* Ẩn thanh cuộn ngang trên video */
+video::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ẩn thanh cuộn ngang trên video (điều chỉnh cho các trình duyệt khác) */
+video::-webkit-scrollbar-track {
+    display: none;
+}
+
+/* Ẩn thanh cuộn ngang trên video (điều chỉnh cho các trình duyệt khác) */
+video::-webkit-scrollbar-thumb {
+    display: none;
+}
+#map {
+    width: 350px;
+    height: 400px;
+    margin-left: 20px;
+    padding: 0;
+ }

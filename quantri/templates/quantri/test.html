@@ -1,0 +1,244 @@
+{% extends 'quantri/base.html' %}
+
+    {% block conten%}
+
+    {% load static %}
+    {% if messages %}
+    <div class="MessageBox">
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'quantri/article_list.css' %}">
+
+
+    <script src="{% static 'js/article_list.js' %}"></script>
+
+
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div class="column2">
+                <div class="article-details">
+
+                    <h3 class="article-subtitle">{{ article.Title }}</h3>
+                    <p class="article-content">{{ article.Content }}</p>
+                    <p class="posting-date">Ngày đăng: {{ article.PostingDate }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="mani">
+            <div class="growing-region-details">
+                <h2><span class="region-heading">Vùng trồng</span></h2>
+                <p class="region-name">Tên vùng trồng: {{ growing_region.RegionName }}</p>
+                <p class="region-description">{{ growing_region.Description }}</p>
+                <p class="region-address">Địa chỉ: {{ growing_region.Address }}</p>
+                <p class="region-area">Diện tích: {{ growing_region.Area }} km²</p>
+                <p class="region-product">Sản phẩm chính: {{ growing_region.MainProduct }}</p>
+
+
+                <div>
+                    <div= class="growing-region-details">
+                        <h2><span class="region-heading">Địa Điểm: {{Location.Name}} </span></h2>
+                        <p>kinh tuyến: {{Location.Latitude}}</p>
+                        <p>vĩ tuyến: {{Location.Longitude}}</p>
+                </div>
+
+            </div>
+            <div class="fruit-details">
+                <h2><span class="fruit-heading">Trái cây</span></h2>
+                <p class="fruit-name">{{ fruit.FruitName }}</p>
+                <p class="fruit-description">{{ fruit.Description }}</p>
+                <p class="planting-time">Thời gian trồng: {{ fruit.PlantingTime }}</p>
+                <p class="harvest-time">Thời gian thu hoạch: {{ fruit.HarvestTime }}</p>
+                <p class="harvest-time">Số lượng cây: {{ fruit.Quantity }} (cây)</p>
+            </div>
+
+            <div class="image-details">
+                <h2><span class="image-heading">Hình Ảnh</span></h2>
+                <ul class="image-list">
+                    {% for image in images %}
+                    <li class="image-item">
+                        <p class="image-description">{{ image.Description }}</p>
+                        <p class="image-container"><img src="{{ image.ImageURL.url }}" alt="" width="50%"></p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="comments-container">
+                <h2 class="comments-heading">Bình luận</h2>
+                <ul class="comment-list">
+                    {% for feedback in feedbacks %}
+                    {% if feedback.ParentFeedback == null %}
+                    <li class="comment-item">
+                        <div class="comment-header">
+                            <div class="user-avatar">
+                                {% if feedback.User.useravatar %}
+                                <img src="{{ feedback.User.useravatar.avatar.url }}" width="20px" height="20px"
+                                    alt="User Avatar">
+                                {% if request.user == feedback.User %}
+                                <a href="{% url 'post:upload_avatar' %}" class="edit-avatar-link"><i
+                                        class="fa-solid fa-pencil"></i> Tác giả</a>
+                                {% endif %}
+                                {% else %}
+                                {% if request.user == feedback.User %}
+                                <a href="{% url 'post:upload_avatar' %}"><i class="fa-solid fa-user-pen"></i></a>
+                                {% else %}
+                                <img src="{% static 'images/avtdefaul.jpg' %}" width="20px" height="20px"
+                                    alt="Default Avatar">
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            <p class="comment-time">Thời gian: {{ feedback.ResponseDate }}</p>
+                        </div>
+                        <p class="comment-content">
+                            <strong>{{ feedback.User.username }}:</strong> {{ feedback.Content }}
+                        </p>
+                        <!-- Thêm nút sửa và xóa -->
+                        <div class="comment-actions">
+                            {% if request.user.is_authenticated %}
+                            <a href="javascript:void(0);" data-id="{{ feedback.FeedbackID }}"
+                                class="reply-comment-link">Phản hồi</a>
+                            {% endif %}
+                            {% if request.user == feedback.User %}
+                            <a href="javascript:void(0);" data-id="{{ feedback.FeedbackID }}"
+                                class="edit-comment-link">Sửa</a>
+                            <a href="{% url 'post:delete_comment' feedback.FeedbackID %}"
+                                class="delete-comment-link">Xóa</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endif %}
+                    <!-- Hiển thị phản hồi cho bình luận gốc -->
+                    {% for response in feedback.responses.all %}
+                    <ul class="comment-reply-list">
+                        <li class="comment-item response">
+                            <div class="comment-header">
+                                <div class="user-avatar">
+                                    {% if response.User.useravatar %}
+                                    <img src="{{ response.User.useravatar.avatar.url }}" width="20px" height="20px"
+                                        alt="User Avatar">
+                                    {% if request.user == response.User %}
+                                    <a href="{% url 'post:upload_avatar' %}" class="edit-avatar-link"><i
+                                            class="fa-solid fa-pencil"></i> Tác giả</a>
+                                    {% endif %}
+                                    {% else %}
+                                    {% if request.user == response.User %}
+                                    <a href="{% url 'post:upload_avatar' %}"><i class="fa-solid fa-user-pen"></i></a>
+                                    {% else %}
+                                    <img src="{% static 'images/avtdefaul.jpg' %}" width="20px" height="20px"
+                                        alt="Default Avatar">
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <p class="comment-time">Thời gian: {{ response.ResponseDate }}</p>
+                            </div>
+                            <p class="comment-content">
+                                <strong>{{ response.User.username }}:</strong>
+                                {% if response.ParentFeedback %}
+                                Trả lời cho <strong>{{ response.ParentFeedback.User.username }}:</strong>
+                                {% endif %}
+                                {{ response.Content }}
+                            </p>
+                            <!-- Thêm nút "Phản hồi" cho phản hồi -->
+                            <div class="comment-actions">
+                                {% if request.user.is_authenticated %}
+                                <a href="javascript:void(0);" data-id="{{ response.FeedbackID }}"
+                                    class="reply-comment-link">Phản hồi</a>
+                                {% endif %}
+                                {% if request.user == response.User %}
+                                <a href="javascript:void(0);" data-id="{{ response.FeedbackID }}"
+                                    class="edit-comment-link">Sửa</a>
+                                <a href="{% url 'post:delete_comment' response.FeedbackID %}"
+                                    class="delete-comment-link">Xóa</a>
+                                {% endif %}
+                            </div>
+                            {% include 'quantri/recursive_responses.html' with responses=response.responses.all %}
+                        </li>
+                    </ul>
+                    {% endfor %}
+                    <!-- Kết thúc vòng lặp cho phản hồi -->
+                    {% endfor %}
+                </ul>
+                <div class="add-comment-form" style="display: none;">
+                    <h3>Thêm Phản Hồi</h3>
+                    <form method="post" action="{% url 'post:add_comment' article.ArticleID %}">
+                        {% csrf_token %}
+                        {{ feedback_form.as_p }}
+                        <input type="hidden" id="EditCommentID" name="EditCommentID" value="">
+                        <button type="submit" class="submit-comment">Gửi Phản Hồi</button>
+                    </form>
+                </div>
+                <!-- Form để chỉnh sửa bình luận -->
+                <div class="edit-comment-form" style="display: none;">
+                    <h3>Chỉnh Sửa Bình Luận</h3>
+                    <form method="post" action="{% url 'post:edit_comment' %}">
+                        {% csrf_token %}
+                        {{ feedback_form.as_p }}
+                        <input type="hidden" name="EditCommentID" value="" class="edit-comment-id">
+                        <button type="submit" class="submit-comment">Lưu</button>
+                    </form>
+                </div>
+                <!-- Form để thêm bình luận mới -->
+                <div class="add-comment-form">
+                    <h3>Thêm Bình Luận Mới</h3>
+                    <form method="post" action="{% url 'post:add_comment' article.ArticleID %}">
+                        {% csrf_token %}
+                        {{ feedback_form.as_p }}
+                        <input type="hidden" id="EditCommentID" name="EditCommentID" value="">
+                        <button type="submit" class="submit-comment">Gửi Bình Luận</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </body>
+
+
+    <!-- Thêm biểu mẫu chỉnh sửa bình luận (đã thay đổi ID và action) -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Sử dụng JavaScript để bắt sự kiện khi nhấp vào nút "Sửa"
+        document.addEventListener("DOMContentLoaded", function () {
+            const editCommentLinks = document.querySelectorAll(".edit-comment-link");
+            const editCommentForm = document.querySelector(".edit-comment-form");
+            const editCommentIDInput = editCommentForm.querySelector(".edit-comment-id");
+
+            editCommentLinks.forEach(function (link) {
+                link.addEventListener("click", function () {
+                    const feedbackID = link.getAttribute("data-id");
+                    editCommentIDInput.value = feedbackID;
+                    editCommentForm.style.display = "block";
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            // Xử lý sự kiện khi người dùng nhấn nút "Phản hồi"
+            $('.reply-comment-link').click(function () {
+                // Lấy ID của bình luận cha
+                var commentID = $(this).data('id');
+
+                // Hiển thị biểu mẫu phản hồi
+                $('.add-comment-form').show();
+
+                // Đặt giá trị trường ẩn "EditCommentID" với ID của bình luận cha
+                $('#EditCommentID').val(commentID);
+            });
+        });
+
+
+    </script>
+
+
+
+
+
+{% endblock %}
