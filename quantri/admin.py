@@ -9,7 +9,7 @@ from .models import *
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('ArticleID','Title', 'IsApproved', 'PostingDate')
-    list_filter = ('IsApproved','FruitID' )
+    list_filter = ('IsApproved','FruitID','User', )
     search_fields = ('Title',)
 
     # def get_queryset(self, request):
@@ -109,7 +109,7 @@ admin.site.register(CropType, CropTypeAdmin)
 
 class PlantingPlanAdmin(admin.ModelAdmin):
     list_display = ('plan_id', 'season','crop_type')
-    list_filter = ('crop_type',)
+    list_filter = ('crop_type','season',)
     
     
 admin.site.register(PlantingPlan, PlantingPlanAdmin)

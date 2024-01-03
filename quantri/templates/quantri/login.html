@@ -23,9 +23,10 @@
     {% csrf_token %}
     <div class="fromlogin">
         <h2 style="color: brown;">Đăng nhập</h2>
-        {% if messages %}
+        <!-- {% if messages %}
                     <p style=" color: brown; text-align: center;">{{ messages }}</p>
-        {% endif %}
+        {% endif %} -->
+        {{message}}
         <div class="form-group">
             <input type="text" id="username" name="username" required placeholder="Tên người dùng">
         </div>

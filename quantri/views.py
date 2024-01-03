@@ -57,7 +57,7 @@ def get_growing_regions():
     growing_regions = GrowingRegion.objects.all()
     return growing_regions
 
-openai_api_key = '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'
+openai_api_key = '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'
 openai.api_key = openai_api_key
 
 #gọi chat_gpt
@@ -255,8 +255,7 @@ def article_detail(request, id):
     for feedback in feedbacks:
         user = feedback.User  # Lấy thông tin người dùng từ trường User của Feedback
 
-        try:
-            
+        try: 
             user_avatar = UserAvatar.objects.get(user=user)
             if user_avatar.avatar:
                 user_avatars[user.id] = user_avatar.avatar.url
@@ -266,7 +265,6 @@ def article_detail(request, id):
             user_avatars[user.id] = None
 
     growing_regions = get_growing_regions()
-
 
     # Chuyển đổi giá trị Decimal thành kiểu float hoặc str trước khi đưa vào JSON
     latitude_value = decimal_to_str(Location.Latitude)
@@ -346,10 +344,10 @@ def add_comment(request, id):
                     feedback.save()
 
                     # Tạo thông báo cho tác giả bài viết
-                    if request.user != article.User:
-                        # feedback.is_notification = True #phân biệt người đăng với người dùng
-                        feedback.notification_message = f"{request.user.username} đã phản hồi bình luận của bạn."
-                        feedback.save()
+                    # if request.user != article.User:
+                    #     # feedback.is_notification = True #phân biệt người đăng với người dùng
+                    #     feedback.notification_message = f"{request.user.username} đã phản hồi bình luận của bạn."
+                    #     feedback.save()
                     
 
                     # Tạo thông báo cho người phản hồi cha nếu người phản hồi không phải là người phản hồi cha
@@ -430,7 +428,7 @@ def delete_comment(request, comment_id):
         comment.delete()
 
         # Tạo một thông báo thành công
-        messages.success(request, 'Bình luận đã được xóa thành công.')
+        # messages.success(request, 'Bình luận đã được xóa thành công.')
     else:
         # Tạo một thông báo lỗi
         messages.error(request, 'Bạn không có quyền xóa bình luận này.')
@@ -565,11 +563,11 @@ def register(request):
                         del request.session['otp']
 
                     return redirect('post:login')  
-                return render(request, 'quantri/SignUpForm.html', {'messages': 'Mã otp không trùng khớp'})
-            return render(request, 'quantri/SignUpForm.html', {'messages': 'Mã OTP đã hết hạn.'})
+                return render(request, 'quantri/SignUpForm.html', {'message': 'Mã otp không trùng khớp'})
+            return render(request, 'quantri/SignUpForm.html', {'message': 'Mã OTP đã hết hạn.'})
                 
         else:
-            return render(request, 'quantri/SignUpForm.html', {'messages': 'Mã otp không hợp lệ'})
+            return render(request, 'quantri/SignUpForm.html', {'message': 'Mã otp không hợp lệ'})
 
     return render(request, 'quantri/SignUpForm.html')
 
@@ -577,29 +575,34 @@ def register(request):
 def gmail_verification(request):
     if request.method == 'GET':
         email = request.GET.get('email')
-        print('222',email)
-        check_user = User.objects.filter(email=email)
+        dk_email_1 = email.find("@")
+        dk_email_2 = email.find(".")
+        
+        if int(dk_email_1) > 0 and int(dk_email_2) > 0:
+            check_user = User.objects.filter(email=email)
+            
+            if not check_user:
+                try:
+                    otp = str(random.randint(1000, 9999))
 
-        if not check_user:
-            try:
-                otp = str(random.randint(1000, 9999))
+                    subject = 'Xác thực Gmail'
+                    message = f'Mã xác thực của tài khoản NONGSANVIET bạn là: {otp} Có hiệu lực trong vòng 10 phút'
+                    from_email = 'quanghuyqb2001@gmail.com'
+                    recipient_list = [email]
+                    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
-                subject = 'Xác thực Gmail'
-                message = f'Mã xác thực của tài khoản NONGSANVIET bạn là: {otp} Có hiệu lực trong vòng 10 phút'
-                from_email = 'quanghuyqb2001@gmail.com'
-                recipient_list = [email]
-                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                    # Lưu thời điểm hiện tại khi OTP được tạo dưới dạng chuỗi ISO 8601
+                    request.session['otp_created_at'] = timezone.now().isoformat()
+                    request.session['otp'] = otp
 
-                # Lưu thời điểm hiện tại khi OTP được tạo dưới dạng chuỗi ISO 8601
-                request.session['otp_created_at'] = timezone.now().isoformat()
-                request.session['otp'] = otp
-
-                # Truyền giá trị email và thông báo thành công vào template
-                return render(request, 'quantri/SignUpForm.html', {'email': email, 'messages': 'Mã xác thực đã được gửi đến email của bạn.'})
-            except Exception as e:
-                messages.error(request, f'Có lỗi xảy ra trong quá trình gửi email xác thực: {e}')
+                    # Truyền giá trị email và thông báo thành công vào template
+                    return render(request, 'quantri/SignUpForm.html', {'email': email, 'message': 'Mã xác thực đã được gửi đến email của bạn.'})
+                except Exception as e:
+                    messages.error(request, f'Có lỗi xảy ra trong quá trình gửi email xác thực: {e}')
+            else:
+                messages.error(request, 'Gmail đã được đăng ký.')
         else:
-            messages.error(request, 'Gmail đã được đăng ký.')
+                messages.error(request, 'Vui lòng nhập đúng định dạng .@')
 
     # Nếu có lỗi hoặc không phải phương thức GET, chuyển hướng về trang đăng ký
     return redirect('post:register')
@@ -615,7 +618,7 @@ def user_login(request):
             login(request, user)
            
             return redirect('post:home')
-        return render(request, 'quantri/login.html', {'messages': 'Tên người dùng hoặc mật khẩu không đúng.'})   
+        return render(request, 'quantri/login.html', {'message': 'Tên người dùng hoặc mật khẩu không đúng.'})   
     return render(request, 'quantri/login.html')
 
 def forgot_password(request):
@@ -839,7 +842,7 @@ def create_article(request):
                             video_obj.save()
                     else:
                         messages.error(request, "Chọn tối đa 3 video.")
-                        return render(request, 'quantri/create_article.html')
+                        return render(request, 'quantri/create_article.html',{'message': 'Mã OTP đã hết hạn.'})
                 # Tạo bài viết
                 article = Article(Title=titleArtice, Image=ImageArtice,  Content=contentArtice, FruitID=fruit,User_id=user_id)
                 if is_admin:
@@ -1188,7 +1191,6 @@ def update_account(request):
         user = request.user
         user.username = new_username
         user.email = new_email
-
         if new_password:
             user.password = make_password(new_password)
         user.save()

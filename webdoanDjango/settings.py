@@ -134,9 +134,9 @@ STATIC_URL = 'static/'
 
 # STATIC_ROOT = 'static_admin'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static_admin")
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static_admin")
+# ]
 
 
 # Default primary key field type

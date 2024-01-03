@@ -29,9 +29,10 @@
     
     <div class="formdiv">
         <h2 style="color: brown;">Đăng ký</h2>
-            {% if messages %}
-                    <p style=" color: brown; text-align: center;">{{ messages }}</p>
-            {% endif %}
+            {% for message in messages %}
+                    <p style=" color: brown; text-align: center;">{{ message }}</p>
+            {% endfor %}
+            
             {% csrf_token %}
 
             <input type="text" id="username" name="username" required placeholder="Nhập tên người dùng">
@@ -40,6 +41,7 @@
             <input type="password" id="password2" name="password2" required placeholder="Nhập lại mật khẩu">
 
             <label for="otp">Mã xác thực Gmail:</label>
+            <p style="color: brown;">{{message}}</p>
             <a class="get-otp-link" href="{% url 'post:gmail_verification' %}">nhận mã</a>
             <input type="text" id="otp" name="otp" required placeholder="Mã xác thực Gmail">
 
