@@ -184,11 +184,6 @@ class Chat(models.Model):
     def __str__(self):
         return self.message
 
-
-
-
-
-
 # ================ KẾ HOẠCH MÙA VỤ ================
 
 class SeasonPlan(models.Model):

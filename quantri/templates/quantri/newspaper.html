@@ -88,15 +88,7 @@
             </div>
         </div>
         <div class="social-share-buttons">
-            {#            <div class="facebook-share-button">#}
-            {#                <i class="fab fa-facebook" style="color: #1877f2"></i>#}
-            {#                <div class="fb-share-button" data-href="{{ request.build_absolute_uri }}" data-layout="button"#}
-            {#                     data-size="small">#}
-            {#                    <a target="_blank"#}
-            {#                       href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}&amp;src=sdkpreparse"#}
-            {#                       class="fb-xfbml-parse-ignore">Share on Facebook</a>#}
-            {#                </div>#}
-            {#            </div>#}
+           
             <div class="facebook-share-button">
                 <i class="fab fa-facebook" style="color: #1877f2"></i>
                 <div class="fb-share-button" data-href="{{ request.build_absolute_uri }}" data-layout="button"
@@ -110,7 +102,6 @@
             <div class="twitter-share-button">
                 <img src="{% static 'images/zalo1.png' %}" alt="Logo"
                      style="width: 25px; height: 25px; margin-right: 10px">
-                {#                <a target="_blank" href="https://zalo.me/{{user_avt.zalo}}">Share on Zalo</a>#}
                 <a target="_blank"
                    href="https://zalo.me/share?url={{ request.build_absolute_uri }}/{{ user_avt.zalo }}">Share on
                     Zalo</a>

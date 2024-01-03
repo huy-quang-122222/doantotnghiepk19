@@ -422,3 +422,8 @@ footer {
    display: block; /* Display the icon as a block element (above the text) */
    margin: 15px auto; /* Center the icon horizontally */
 }
+#notification{
+            
+   margin-top: 5px;
+   padding: 3px;
+}
